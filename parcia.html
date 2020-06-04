@@ -1,0 +1,171 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcial</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.min.js"></script>
+    <script>
+		var scene, aspect, camera, renderer;
+                var geometria,geometria2,geometria3,geometria4,geometria5,geometria6,geometria7,geometria8;
+                var sl,ed1,ed2,ed3,ed4,ed5,ed6,ed7;
+		var startTime = Date.now();
+		
+		init();
+		animate();
+	
+		function init(){
+			scene = new THREE.Scene();
+			aspect = window.innerWidth / window.innerHeight;
+			camera = new THREE.PerspectiveCamera( 45, aspect, 0.1, 1000);
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+				  
+			var size = 10;
+			var arrowSize = 1;
+			var divisions = size;
+			var origin = new THREE.Vector3( 0, 0, 0 );
+			var x = new THREE.Vector3( 1, 0, 0 );
+			var y = new THREE.Vector3( 0, 1, 0 );
+		  	var z = new THREE.Vector3( 0, 0, 1 );
+			var color1 = new THREE.Color( 0xFFFFFF );
+		  	var color2 = new THREE.Color( 0x333333 );
+		  	var colorR = new THREE.Color( 0xAA3333 );
+		  	var colorG = new THREE.Color( 0x33AA33 );
+                        var color3 = new THREE.Color( 0x666666  );
+var color4 = new THREE.Color( 0x666600  );
+
+		  	
+		  
+		  	//CREAR LAS GRILLAS PARA EL ESCENARIO
+		  	var axesHelper = new THREE.AxesHelper( size );
+		  	var gridHelperXY = new THREE.GridHelper( size, divisions, color1, color1);
+		  	var gridHelperXZ = new THREE.GridHelper( size, divisions, color2, color2 );
+		  	var gridHelperYZ = new THREE.GridHelper( size, divisions, color2, color2 );
+            
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXY.rotateOnWorldAxis ( x, THREE.Math.degToRad(90) );
+            gridHelperXZ.rotateOnWorldAxis ( y, THREE.Math.degToRad(90) );
+            gridHelperYZ.rotateOnWorldAxis ( z, THREE.Math.degToRad(90) );
+            
+            //CREAR LAS FLECHAS QUE INDICAN LOS EJES DE COORDENADAS 3D
+            var arrowX = new THREE.ArrowHelper( x, origin, arrowSize, colorR );
+            var arrowY = new THREE.ArrowHelper( y, origin, arrowSize, colorR );
+            var arrowZ = new THREE.ArrowHelper( z, origin, arrowSize, colorR );
+			
+		    	//CREAR LAS GEOMETRÍAS
+                        //Suelo
+                        geometria1 = new THREE.BoxGeometry( 10, 1, 10 );
+                        //CREAR LOS MATERIALES SUELO
+			var material = new THREE.MeshBasicMaterial( { color: color4, vertexColors: THREE.FaceColors } );
+                       //CREAR SUELO
+			sl= new THREE.Mesh( geometria1, material );
+                        
+                        //Edificio1
+                        geometria2 = new THREE.BoxGeometry( 10, 3, 2 );
+                        //CREAR LOS MATERIALES edificio
+			var material2 = new THREE.MeshBasicMaterial( { color: color2, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio1
+			ed1= new THREE.Mesh( geometria2, material2 );	
+                       //APLICO TRASLACION 
+                        ed1.applyMatrix( new THREE.Matrix4().makeTranslation(0,2,0) );
+                       
+                       //Edificio2
+                        geometria3 = new THREE.BoxGeometry( 2, 3, 2 );
+                        //CREAR LOS MATERIALES edificio
+			var material2 = new THREE.MeshBasicMaterial( { color: color2, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio2
+			ed2= new THREE.Mesh( geometria3, material2 );	
+                        ed2.applyMatrix( new THREE.Matrix4().makeTranslation(4,2,2) );
+
+                       //Edificio3
+                        geometria4 = new THREE.BoxGeometry( 2, 2,6 );
+                        //CREAR LOS MATERIALES edificio
+			var material3 = new THREE.MeshBasicMaterial( { color: color3, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio3
+			ed3= new THREE.Mesh( geometria4, material3 );	
+                        ed3.applyMatrix( new THREE.Matrix4().makeTranslation(-3.5,1,-1.75) );
+
+                       //Edificio4
+                        geometria5 = new THREE.BoxGeometry( 2, 2, 6 );
+                        //CREAR LOS MATERIALES edificio
+			var material3 = new THREE.MeshBasicMaterial( { color: color3, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio3
+			ed4= new THREE.Mesh( geometria4, material3 );	
+                        ed4.applyMatrix( new THREE.Matrix4().makeTranslation(-1,1,-1.75) );
+
+                        //Edificio6
+                        geometria5 = new THREE.BoxGeometry( 2, 1, 6 );
+                        //CREAR LOS MATERIALES edificio
+			var material3 = new THREE.MeshBasicMaterial( { color: color3, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio3
+			ed5= new THREE.Mesh( geometria4, material3 );	
+                        ed5.applyMatrix( new THREE.Matrix4().makeTranslation(1.5,1,-1.75) );
+
+                       //Edificio7
+                        geometria7 = new THREE.BoxGeometry( 7, 3, 2 );
+                        //CREAR LOS MATERIALES edificio
+			var material2 = new THREE.MeshBasicMaterial( { color: color2, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio1
+			ed6= new THREE.Mesh( geometria7, material2 );	
+                       //APLICO TRASLACION 
+                        ed6.applyMatrix( new THREE.Matrix4().makeTranslation(-1,2,-4) );
+
+                       //Edificio8
+                        geometria8 = new THREE.BoxGeometry( 2, 2, 2 );
+                        //CREAR LOS MATERIALES edificio
+			var material2 = new THREE.MeshBasicMaterial( { color: color2, vertexColors: THREE.FaceColors } );
+                       //CREAR edificio1
+			ed7= new THREE.Mesh( geometria8, material2 );	
+                       //APLICO TRASLACION 
+                        ed7.applyMatrix( new THREE.Matrix4().makeTranslation(-4,1.5,4) );
+              
+              
+
+
+            
+
+		  	//AGREGAR A LA ESCENA
+		  	//scene.add( gridHelperXY );
+            scene.add( gridHelperXZ );
+		  	scene.add( arrowX );	
+		  	scene.add( arrowY );	
+		  	scene.add( arrowZ );	
+		
+                        scene.add( sl );
+                        scene.add( ed1 );
+                        scene.add( ed2 );
+                        scene.add( ed3 );
+                        scene.add( ed4 );
+                        scene.add( ed5 );
+                        scene.add( ed6 );
+                        scene.add( ed7 );
+
+
+			
+			camera.position.x = 5;
+			camera.position.y = 10;	 
+		  	camera.position.z = 10;
+			
+		  	camera.lookAt( origin );
+			}
+    
+    function animate() {
+        render();
+        requestAnimationFrame( animate );
+    }
+    
+    function render(){
+        var dtime = Date.now()-startTime;
+        camera.position.x = 10*Math.cos(dtime/10000);
+        camera.position.z = 10*Math.sin(dtime/10000);
+        camera.lookAt( 0, 0, 0 );
+        renderer.render( scene, camera );
+    }
+    </script>
+  </body>
+</html>
